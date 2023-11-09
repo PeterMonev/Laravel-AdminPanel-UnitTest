@@ -1,0 +1,29 @@
+/* Add custom styles to pagination links */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.pagination .page-item {
+    margin: 0 5px;
+}
+
+.pagination .page-item a {
+    padding: 5px 10px;
+    background-color: #007BFF;
+    color: #fff;
+    border: 1px solid #007BFF;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.pagination .page-item a:hover {
+    background-color: #0056b3;
+}
+
+.pagination .page-item.active a {
+    background-color: #0056b3;
+    border: 1px solid #0056b3;
+}
