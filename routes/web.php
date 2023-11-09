@@ -27,6 +27,7 @@ Auth::routes();
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware('auth')->group(function () {
+        
         Route::get('/home', [HomeController::class, 'dashboard'])->name('dashboard');
         Route::get('/usermanagement', [UserController::class, 'index'])->name('index');
 
