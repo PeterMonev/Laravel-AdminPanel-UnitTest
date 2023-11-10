@@ -20,13 +20,13 @@ class CarControllerTest extends TestCase
         $this->actingAs($user);
 
         $response = $this->post(route('admin.car.store'), [
-            'make' => 'Toyota',
-            'model' => 'Camry',
+            'make' => 'Skoda',
+            'model' => 'Fabia',
             'year' => 2022,
         ]);
 
         $response->assertStatus(302);
-        $this->assertDatabaseHas('cars', ['make' => 'Toyota']);
+        $this->assertDatabaseHas('cars', ['make' => 'Skoda']);
     }
 
     public function tast_can_read_cars(){
@@ -65,7 +65,7 @@ class CarControllerTest extends TestCase
 
         $car = Car::factory()->create(['user_id' => $user->id]);
 
-        $response = $this->delete(route('admin.car.destroy', ['id' => $car->id]));
+        $response = $this->get(route('admin.car.destroy', ['id' => $car->id]));
 
         $response->assertStatus(302);
         $this->assertDatabaseMissing('cars', ['id' => $car->id]);

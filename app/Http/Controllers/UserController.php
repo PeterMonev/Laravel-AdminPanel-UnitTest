@@ -8,22 +8,37 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
+    /**
+     * Display a paginated list of users.
+     *
+     * @return \Illuminate\View\View
+     */
     public function index()
     {
         $users = User::orderBy('id', 'desc')->paginate(10);
-        return view('users.dashboard',[
+        return view('users.dashboard', [
             'users' => $users
         ]);
     }
 
-    public function create(){
+    /**
+     * Display the form for creating a new user.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function create()
+    {
         return view('users.create');
     }
 
-    public function store(Request $request){
-
-        
-        // Validation
+    /**
+     * Store a newly created user in the database.
+     *
+     * @param  Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
@@ -40,43 +55,54 @@ class UserController extends Controller
         $user->email = strtolower($request->email);
         $user->phone_number = $request->phone_number;
         $user->password = bcrypt($request->password);
-        
         $user->save();
-        
-        return redirect()->route('admin.index')->with('success', 'User was created  successfully');
+
+        return redirect()->route('admin.index')->with('success', 'User was created successfully');
     }
 
-    public function edit($id){
+    /**
+     * Display the form for editing an existing user.
+     *
+     * @param  int $id
+     * @return \Illuminate\View\View
+     */
+    public function edit($id)
+    {
         $user = User::find($id);
 
-        return view('users.edit',[
+        return view('users.edit', [
             'user' => $user
         ]);
     }
 
-
-    public function update(Request $request,$id){
-        
-        // Validation
+    /**
+     * Update the specified user in the database.
+     *
+     * @param  Request $request
+     * @param  int $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update(Request $request, $id)
+    {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
-            'phone' => 'required|string|max:15'
+            'phone_number' => 'required|string|max:15',
         ]);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 400);
         }
 
-        
         $user = User::find($id);
 
         $user->name = $request->name;
 
-        if($request->password){
+        if ($request->password) {
             $user->password = bcrypt($request->password);
         }
-        $user->phone_number = $request->phone;
+
+        $user->phone_number = $request->phone_number;
         $user->email = strtolower($request->email);
 
         $user->save();
@@ -84,13 +110,21 @@ class UserController extends Controller
         return redirect()->route('admin.index')->with('success', 'User was updated successfully');
     }
 
-
-    public function destroy($id){
-
+    /**
+     * Remove the specified user from the database.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroy($id)
+    {
         $user = User::find($id);
 
-        $user->delete();
+        if ($user) {
+            $user->delete();
+            return redirect()->route('admin.index')->with('success', 'User was deleted successfully');
+        }
 
-        return redirect()->route('admin.index')->with('success', 'User was deleted successfully');
+        return redirect()->route('admin.index')->with('error', 'User not found or already deleted');
     }
 }
