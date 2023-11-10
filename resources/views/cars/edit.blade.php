@@ -8,8 +8,10 @@
 
 @section('content')
 <div class="container">
-    <form method="PUT">
+    <form method="POST">
         @csrf
+        @method('PUT');
+        
         <div class="form-group">
             <label for="name">Brand:</label>
             <input type="text" class="form-control" id="make" name="make" value="{{ $car->make }}">

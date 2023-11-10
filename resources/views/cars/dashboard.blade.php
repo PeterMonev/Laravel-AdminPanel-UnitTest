@@ -28,7 +28,11 @@
                     <td>{{ $car->user->name }}</td>
                     <td>
                         <a href="{{ route('admin.car.edit', ['id' => $car->id]) }}" class="btn btn-primary">Edit</a>
-                        <a href="{{ route('admin.car.destroy', ['id' => $car->id]) }}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this car?')">Delete</a>
+                        <form action="{{ route('admin.car.destroy', ['id' => $car->id]) }}" method="POST" style="display: inline-block;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this car?')">Delete</button>
+                        </form>
                     </td>
                 </tr>
             </tr>

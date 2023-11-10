@@ -25,8 +25,11 @@
                 <td>{{ $user->phone_number }}</td>
                 <td>
                     <a href="{{ route('admin.user.edit', ['id' => $user->id]) }}" class="btn btn-primary">Edit</a>
-                    <a href="{{ route('admin.user.destroy', ['id' => $user->id]) }}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this user?')">Delete</a>
-
+                    <form action="{{ route('admin.user.destroy', ['id' => $user->id]) }}" method="POST" style="display: inline-block;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this user?')">Delete</button>
+                    </form>
                 </td>
             </tr>
             @endforeach

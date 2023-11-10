@@ -35,7 +35,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
             Route::post('/createcar', [CarController::class, 'store'])->name('store');
             Route::get('/editcar/{id}', [CarController::class, 'edit'])->name('edit');
             Route::put('/editcar/{id}', [CarController::class, 'update'])->name('update');
-            Route::get('/deletecar/{id}', [CarController::class, 'destroy'])->name('destroy');
+            Route::delete('/deletecar/{id}', [CarController::class, 'destroy'])->name('destroy');
         });
 
         // User-related routes
@@ -44,7 +44,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
             Route::post('/createuser', [UserController::class, 'store'])->name('store');
             Route::get('/edituser/{id}', [UserController::class, 'edit'])->name('edit');
             Route::put('/edituser/{id}', [UserController::class, 'update'])->name('update');
-            Route::get('/deleteuser/{id}', [UserController::class, 'destroy'])->name('destroy');
+            Route::delete('/deleteuser/{id}', [UserController::class, 'destroy'])->name('destroy');
         });
   
 });

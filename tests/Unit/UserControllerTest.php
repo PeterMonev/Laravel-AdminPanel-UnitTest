@@ -63,7 +63,7 @@ class UserControllerTest extends TestCase
 
         $this->actingAs($user);
 
-        $response = $this->get(route('admin.user.destroy', ['id' => $user->id]));
+        $response = $this->delete(route('admin.user.destroy', ['id' => $user->id]));
 
         $response->assertStatus(302);
         $this->assertDatabaseMissing('users', ['id' => $user->id]);

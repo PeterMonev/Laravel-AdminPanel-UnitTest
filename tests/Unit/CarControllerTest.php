@@ -65,7 +65,7 @@ class CarControllerTest extends TestCase
 
         $car = Car::factory()->create(['user_id' => $user->id]);
 
-        $response = $this->get(route('admin.car.destroy', ['id' => $car->id]));
+        $response = $this->delete(route('admin.car.destroy', ['id' => $car->id]));
 
         $response->assertStatus(302);
         $this->assertDatabaseMissing('cars', ['id' => $car->id]);

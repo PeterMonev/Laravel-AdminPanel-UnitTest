@@ -116,15 +116,16 @@ class UserController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy($id)
-    {
-        $user = User::find($id);
+ public function destroy($id)
+{
+    $user = User::find($id);
 
-        if ($user) {
-            $user->delete();
-            return redirect()->route('admin.index')->with('success', 'User was deleted successfully');
-        }
-
-        return redirect()->route('admin.index')->with('error', 'User not found or already deleted');
+    if ($user) {
+        $user->delete();
+        return redirect()->route('admin.index')->with('success', 'User was deleted successfully');
     }
+
+    return redirect()->route('admin.index')->with('error', 'User not found or already deleted');
+}
+
 }
