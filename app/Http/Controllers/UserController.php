@@ -86,8 +86,8 @@ class UserController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'phone_number' => 'required|string|max:15',
+            'email' => 'required|email|unique:users,email,' . $id,
+            'phone_number' => 'sometimes|required|string|max:15',
         ]);
 
         if ($validator->fails()) {
@@ -102,8 +102,13 @@ class UserController extends Controller
             $user->password = bcrypt($request->password);
         }
 
-        $user->phone_number = $request->phone_number;
-        $user->email = strtolower($request->email);
+        if ($request->has('phone_number')) {
+            $user->phone_number = $request->phone_number;
+        }
+
+        if (strtolower($request->email) !== strtolower($user->email)) {
+            $user->email = strtolower($request->email);
+        }
 
         $user->save();
 
@@ -116,16 +121,15 @@ class UserController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\RedirectResponse
      */
- public function destroy($id)
-{
-    $user = User::find($id);
+    public function destroy($id)
+    {
+        $user = User::find($id);
 
-    if ($user) {
-        $user->delete();
-        return redirect()->route('admin.index')->with('success', 'User was deleted successfully');
+        if ($user) {
+            $user->delete();
+            return redirect()->route('admin.index')->with('success', 'User was deleted successfully');
+        }
+
+        return redirect()->route('admin.index')->with('error', 'User not found or already deleted');
     }
-
-    return redirect()->route('admin.index')->with('error', 'User not found or already deleted');
-}
-
 }
