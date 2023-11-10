@@ -8,7 +8,7 @@
 
 @section('content')
 <div class="container">
-    <form method="POST">
+    <form method="PUT">
         @csrf
         <div class="form-group">
             <label for="name">Name:</label>

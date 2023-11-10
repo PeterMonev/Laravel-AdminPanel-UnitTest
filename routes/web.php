@@ -23,30 +23,28 @@ Route::get('/', function () {
 
 Auth::routes();
 
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
 
-Route::prefix('admin')->name('admin.')->group(function () {
-    Route::middleware('auth')->group(function () {
-        
         Route::get('/home', [HomeController::class, 'dashboard'])->name('dashboard');
         Route::get('/usermanagement', [UserController::class, 'index'])->name('index');
 
+        // Car-related routes
         Route::prefix('car')->name('car.')->group(function () {
             Route::get('/management', [CarController::class, 'index'])->name('index');
             Route::get('/createcar', [CarController::class, 'create'])->name('create');
             Route::post('/createcar', [CarController::class, 'store'])->name('store');
             Route::get('/editcar/{id}', [CarController::class, 'edit'])->name('edit');
-            Route::post('/editcar/{id}', [CarController::class, 'update'])->name('update');
-            Route::get('/deletecar/{id}', [CarController::class, 'destroy'])->name('destroy');
+            Route::put('/editcar/{id}', [CarController::class, 'update'])->name('update');
+            Route::delete('/deletecar/{id}', [CarController::class, 'destroy'])->name('destroy');
         });
 
-
+        // User-related routes
         Route::prefix('user')->name('user.')->group(function () {
             Route::get('/createuser', [UserController::class, 'create'])->name('create');
             Route::post('/createuser', [UserController::class, 'store'])->name('store');
             Route::get('/edituser/{id}', [UserController::class, 'edit'])->name('edit');
-            Route::post('/edituser/{id}', [UserController::class, 'update'])->name('update');
-            Route::get('/deleteuser/{id}', [UserController::class, 'destroy'])->name('destroy');
+            Route::put('/edituser/{id}', [UserController::class, 'update'])->name('update');
+            Route::delete('/deleteuser/{id}', [UserController::class, 'destroy'])->name('destroy');
         });
-    });
+  
 });
